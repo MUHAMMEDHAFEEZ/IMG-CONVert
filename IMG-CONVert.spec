@@ -32,6 +32,7 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
+    icon=['.github/assets/icon.png'],
 )
 coll = COLLECT(
     exe,
@@ -41,4 +42,10 @@ coll = COLLECT(
     upx=True,
     upx_exclude=[],
     name='IMG-CONVert',
+)
+app = BUNDLE(
+    coll,
+    name='IMG-CONVert.app',
+    icon='.github/assets/icon.png',
+    bundle_identifier=None,
 )
