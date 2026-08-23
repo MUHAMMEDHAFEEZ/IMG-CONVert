@@ -1,0 +1,56 @@
+name: Build Executables (Windows & macOS)
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-latest, macos-latest]
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Build for Windows
+      if: matrix.os == 'windows-latest'
+      run: |
+        pyinstaller --onefile --windowed --name IMG-CONVert --icon=NONE image_converter.py
+
+    - name: Build for macOS
+      if: matrix.os == 'macos-latest'
+      run: |
+        pyinstaller --noconfirm --onedir --windowed --name IMG-CONVert image_converter.py
+        cd dist
+        zip -r IMG-CONVert-macOS.zip IMG-CONVert.app
+
+    - name: Upload Artifact (Windows)
+      if: matrix.os == 'windows-latest'
+      uses: actions/upload-artifact@v4
+      with:
+        name: IMG-CONVert-Windows
+        path: dist/IMG-CONVert.exe
+
+    - name: Upload Artifact (macOS)
+      if: matrix.os == 'macos-latest'
+      uses: actions/upload-artifact@v4
+      with:
+        name: IMG-CONVert-macOS
+        path: dist/IMG-CONVert-macOS.zip
