@@ -1,0 +1,28 @@
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512' width='512' height='512'>
+  <rect width='512' height='512' rx='115' fill='#0f172a'/>
+  <!-- Soft Gradient Ring -->
+  <defs>
+    <linearGradient id='grad' x1='0%' y1='0%' x2='100%' y2='100%'>
+      <stop offset='0%' stop-color='#38bdf8'/>
+      <stop offset='100%' stop-color='#818cf8'/>
+    </linearGradient>
+    <linearGradient id='accent' x1='0%' y1='0%' x2='100%' y2='100%'>
+      <stop offset='0%' stop-color='#34d399'/>
+      <stop offset='100%' stop-color='#38bdf8'/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Outer Sync Circle Arrows -->
+  <path d='M 256 96 A 160 160 0 0 1 405 210' fill='none' stroke='url(#grad)' stroke-width='24' stroke-linecap='round'/>
+  <polygon points='420,210 395,200 405,175' fill='#818cf8'/>
+
+  <path d='M 256 416 A 160 160 0 0 1 107 302' fill='none' stroke='url(#accent)' stroke-width='24' stroke-linecap='round'/>
+  <polygon points='92,302 117,312 107,337' fill='#34d399'/>
+
+  <!-- Center Image Frame -->
+  <rect x='176' y='176' width='160' height='160' rx='28' fill='none' stroke='#f8fafc' stroke-width='20'/>
+  <!-- Mountain -->
+  <path d='M 200 300 L 235 245 L 265 285 L 285 260 L 312 300 Z' fill='#f8fafc'/>
+  <!-- Sun -->
+  <circle cx='290' cy='218' r='14' fill='#38bdf8'/>
+</svg>
