@@ -358,6 +358,7 @@ class ImageConverterApp(QMainWindow):
     def __init__(self):
         super().__init__()
         self.file_items = []
+        self.last_selected_format = "WEBP"
         self.init_ui()
 
     def init_ui(self):
@@ -481,8 +482,9 @@ class ImageConverterApp(QMainWindow):
         fmt_lbl = QLabel("Convert All To:")
         fmt_lbl.setStyleSheet("color: #8b949e; font-weight: 600; font-size: 11px;")
         self.global_fmt_combo = QComboBox()
-        self.global_fmt_combo.addItems(["Select Format...", "PNG", "JPEG", "JPG", "WEBP", "BMP", "GIF", "TIFF", "ICO"])
-        self.global_fmt_combo.currentIndexChanged.connect(self.apply_global_format)
+        self.global_fmt_combo.addItems(["WEBP", "PNG", "JPEG", "JPG", "BMP", "GIF", "TIFF", "ICO"])
+        self.global_fmt_combo.setCurrentText(self.last_selected_format)
+        self.global_fmt_combo.currentTextChanged.connect(self.apply_global_format)
         fmt_box.addWidget(fmt_lbl)
         fmt_box.addWidget(self.global_fmt_combo)
         ctrl_layout.addLayout(fmt_box)
@@ -569,7 +571,7 @@ class ImageConverterApp(QMainWindow):
 
             file_size = os.path.getsize(f_path) if os.path.exists(f_path) else 0
             default_out_dir = os.path.dirname(f_path)
-            default_out_fmt = "WEBP" if fmt in ("PNG", "JPEG", "JPG") else "PNG"
+            default_out_fmt = getattr(self, 'last_selected_format', 'WEBP')
 
             item_data = {
                 'path': f_path,
@@ -684,10 +686,10 @@ class ImageConverterApp(QMainWindow):
         else:
             self.stack.setCurrentIndex(1)  # Show Table
 
-    def apply_global_format(self, index):
-        if index <= 0:
+    def apply_global_format(self, selected_fmt):
+        if not selected_fmt:
             return
-        selected_fmt = self.global_fmt_combo.currentText()
+        self.last_selected_format = selected_fmt
         for i, item in enumerate(self.file_items):
             item['out_fmt'] = selected_fmt
             combo = self.table.cellWidget(i, 2)
@@ -695,7 +697,6 @@ class ImageConverterApp(QMainWindow):
                 c_idx = combo.findText(selected_fmt)
                 if c_idx >= 0:
                     combo.setCurrentIndex(c_idx)
-        self.global_fmt_combo.setCurrentIndex(0)
 
     def apply_global_output_dir(self):
         chosen_dir = QFileDialog.getExistingDirectory(self, "Select Global Output Folder")
