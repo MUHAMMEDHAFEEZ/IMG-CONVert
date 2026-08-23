@@ -41,7 +41,7 @@ jobs:
     - name: Build for macOS
       if: matrix.os == 'macos-latest'
       run: |
-        pyinstaller --noconfirm --onedir --windowed --name IMG-CONVert --icon=.github/assets/icon.png image_converter.py
+        pyinstaller --noconfirm --onefile --windowed --name IMG-CONVert --icon=.github/assets/icon.png image_converter.py
         codesign --force --deep --sign - dist/IMG-CONVert.app 2>/dev/null || true
         cd dist
         zip -r IMG-CONVert-macOS.zip IMG-CONVert.app
