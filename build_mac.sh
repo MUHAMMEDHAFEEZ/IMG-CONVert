@@ -34,6 +34,7 @@ rm -rf build dist
 # Build macOS .app bundle with icon
 echo "Building macOS application bundle..."
 pyinstaller --noconfirm --onedir --windowed --name "IMG-CONVert" --icon=.github/assets/icon.png image_converter.py
+codesign --force --deep --sign - dist/IMG-CONVert.app 2>/dev/null || true
 
 
 # Optional: Create a zip archive for distribution
