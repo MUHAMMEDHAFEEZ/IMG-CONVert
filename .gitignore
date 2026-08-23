@@ -1,0 +1,17 @@
+# PyInstaller build outputs
+build/
+dist/
+*.spec
+
+# Python cache and environments
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+ENV/
+env/
+
+# OS specific files
+.DS_Store
+Thumbs.db
