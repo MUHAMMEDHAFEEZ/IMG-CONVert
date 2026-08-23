@@ -31,9 +31,10 @@ pip install -r requirements.txt || pip install --break-system-packages -r requir
 # Clean previous build artifacts
 rm -rf build dist
 
-# Build macOS .app bundle
+# Build macOS .app bundle with icon
 echo "Building macOS application bundle..."
-pyinstaller --noconfirm --onedir --windowed --name "IMG-CONVert" image_converter.py
+pyinstaller --noconfirm --onedir --windowed --name "IMG-CONVert" --icon=.github/assets/icon.png image_converter.py
+
 
 # Optional: Create a zip archive for distribution
 if [ -d "dist/IMG-CONVert.app" ]; then
