@@ -8,6 +8,9 @@ on:
     branches: [ main, master ]
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build:
     name: Build on ${{ matrix.os }}
@@ -61,16 +64,14 @@ jobs:
     needs: build
     if: startsWith(github.ref, 'refs/tags/v')
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
-    - name: Download Windows Artifact
+    - name: Download Artifacts
       uses: actions/download-artifact@v4
       with:
-        name: IMG-CONVert-Windows
-
-    - name: Download macOS Artifact
-      uses: actions/download-artifact@v4
-      with:
-        name: IMG-CONVert-macOS
+        path: .
+        merge-multiple: true
 
     - name: Create GitHub Release
       uses: softprops/action-gh-release@v2
