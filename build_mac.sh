@@ -4,10 +4,6 @@ echo "========================================"
 echo " Building IMG-CONVert for macOS "
 echo "========================================"
 
-# Ensure dependencies are installed
-echo "Installing python dependencies..."
-pip3 install -r requirements.txt
-
 # Check if running on macOS (Darwin)
 if [[ "$(uname -s)" != "Darwin" ]]; then
     echo "⚠️  تنبيه: أنت تعمل حالياً على نظام $(uname -s) وليس macOS!"
@@ -19,6 +15,18 @@ if [[ "$(uname -s)" != "Darwin" ]]; then
     echo "========================================"
     exit 1
 fi
+
+# Set up virtual environment
+echo "Setting up Python virtual environment..."
+if [ ! -d ".venv" ]; then
+    python3 -m venv .venv
+fi
+source .venv/bin/activate
+
+# Ensure dependencies are installed
+echo "Installing python dependencies..."
+pip install --upgrade pip
+pip install -r requirements.txt || pip install --break-system-packages -r requirements.txt
 
 # Clean previous build artifacts
 rm -rf build dist
@@ -41,3 +49,4 @@ if [ -d "dist/IMG-CONVert.app" ]; then
 else
     echo "Build failed. Check error messages above."
 fi
+
